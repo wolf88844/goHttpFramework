@@ -7,6 +7,6 @@ import (
 
 func FooControllerHandler(c *framework.Context) error {
 	time.Sleep(10 * time.Second)
-	c.Json(200, "ok")
+	c.SetOkStatus().Json("ok")
 	return nil
 }

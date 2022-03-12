@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"goHttpFramework/framework"
 	"log"
+	"net/http"
 	"time"
 )
 
@@ -33,13 +34,13 @@ func Timeout(d time.Duration) framework.ControllerHandler {
 			c.WriteMux().Lock()
 			defer c.WriteMux().Unlock()
 			log.Println(p)
-			c.Json(500, "panic")
+			c.SetStatus(http.StatusInternalServerError).Json("panic")
 		case <-finish:
 			fmt.Println("finish")
 		case <-durationCtx.Done():
 			c.WriteMux().Lock()
 			defer c.WriteMux().Unlock()
-			c.Json(500, "time out")
+			c.SetStatus(http.StatusInternalServerError).Json("time out")
 			c.SetHasTimeout()
 		}
 		return nil
