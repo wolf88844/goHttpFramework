@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/gohade/hade/framework/gin"
 	"github.com/gohade/hade/framework/middleware"
+	"github.com/gohade/hade/provider/demo"
 	"log"
 	"net/http"
 	"os"
@@ -14,6 +15,7 @@ import (
 
 func main() {
 	core := gin.New()
+	core.Bind(&demo.DemoServiceProvider{})
 	core.Use(gin.Recovery())
 	core.Use(middleware.Cost())
 	registerRouter(core)
