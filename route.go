@@ -1,23 +1,25 @@
 package main
 
-import "goHttpFramework/framework"
+import (
+	"github.com/gohade/hade/framework/gin"
+)
 
-func registerRouter(core *framework.Core) {
-	core.Get("/foo", FooControllerHandler)
+func registerRouter(core *gin.Engine) {
+	core.GET("/foo", FooControllerHandler)
 
-	core.Get("/user/login", UserLoginController)
+	core.GET("/user/login", UserLoginController)
 
 	subjectApi := core.Group("/subject")
 	{
-		subjectApi.Delete("/:id", SubjectDelController)
-		subjectApi.Put("/:id", SubjectUpdateController)
-		subjectApi.Get("/:id", SubjectGetController)
-		subjectApi.Get("/list/all", SubjectListController)
-		subjectApi.Post("/:Id", SubjectAddController)
+		subjectApi.DELETE("/:id", SubjectDelController)
+		subjectApi.PUT("/:id", SubjectUpdateController)
+		subjectApi.GET("/:id", SubjectGetController)
+		subjectApi.GET("/list/all", SubjectListController)
+		subjectApi.POST("/:Id", SubjectAddController)
 
 		subjectInnerApi := subjectApi.Group("/info")
 		{
-			subjectInnerApi.Get("/name", SubjectNameController)
+			subjectInnerApi.GET("/name", SubjectNameController)
 		}
 	}
 }

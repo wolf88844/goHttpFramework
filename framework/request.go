@@ -292,7 +292,7 @@ func (ctx *Context) FormFile(key string) (*multipart.FileHeader, error) {
 }
 
 func (ctx *Context) Form(key string) interface{} {
-	params := ctx.QueryAll()
+	params := ctx.FormAll()
 	if vals, ok := params[key]; ok {
 		return vals[0]
 	}

@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"goHttpFramework/framework"
-	"goHttpFramework/framework/middleware"
+	"github.com/gohade/hade/framework/gin"
+	"github.com/gohade/hade/framework/middleware"
 	"log"
 	"net/http"
 	"os"
@@ -13,10 +13,9 @@ import (
 )
 
 func main() {
-	core := framework.NewCore()
-	core.Use(middleware.Recovery())
+	core := gin.New()
+	core.Use(gin.Recovery())
 	core.Use(middleware.Cost())
-	//core.Use(middleware.Timeout(15 * time.Second))
 	registerRouter(core)
 	server := &http.Server{
 		Handler: core,

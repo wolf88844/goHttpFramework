@@ -1,12 +1,11 @@
 package main
 
 import (
-	"goHttpFramework/framework"
+	"github.com/gohade/hade/framework/gin"
 	"time"
 )
 
-func FooControllerHandler(c *framework.Context) error {
+func FooControllerHandler(c *gin.Context) {
 	time.Sleep(10 * time.Second)
-	c.SetOkStatus().Json("ok")
-	return nil
+	c.ISetOkStatus().IJson("ok")
 }

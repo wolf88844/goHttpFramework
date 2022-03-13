@@ -3,14 +3,14 @@ package middleware
 import (
 	"context"
 	"fmt"
-	"goHttpFramework/framework"
+	"github.com/gohade/hade/framework/gin"
 	"log"
 	"net/http"
 	"time"
 )
 
-func Timeout(d time.Duration) framework.ControllerHandler {
-	return func(c *framework.Context) error {
+func Timeout(d time.Duration) gin.HandlerFunc {
+	return func(c *gin.Context) {
 		finish := make(chan struct{}, 1)
 		panicChan := make(chan interface{}, 1)
 
@@ -31,18 +31,12 @@ func Timeout(d time.Duration) framework.ControllerHandler {
 
 		select {
 		case p := <-panicChan:
-			c.WriteMux().Lock()
-			defer c.WriteMux().Unlock()
 			log.Println(p)
-			c.SetStatus(http.StatusInternalServerError).Json("panic")
+			c.ISetStatus(http.StatusInternalServerError).IJson("panic")
 		case <-finish:
 			fmt.Println("finish")
 		case <-durationCtx.Done():
-			c.WriteMux().Lock()
-			defer c.WriteMux().Unlock()
-			c.SetStatus(http.StatusInternalServerError).Json("time out")
-			c.SetHasTimeout()
+			c.ISetStatus(http.StatusInternalServerError).IJson("time out")
 		}
-		return nil
 	}
 }
